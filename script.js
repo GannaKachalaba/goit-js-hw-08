@@ -1,237 +1,311 @@
-// *//* Example 1 - Коллбек функції
-// Напишіть наступні функції:
+"use strict";
 
-//? createProduct(obj, callback) - приймає об'єкт товару без id, а також коллбек. Функція створює об'єкт товару, додаючи йому унікальний ідентифікатор у властивість id та викликає коллбек передаючи йому створений об'єкт.
-
-//? logProduct(product) - колббек приймаючий об'єкт продукту і логуючий його в консоль
-
-//? logTotalPrice(product) - колббек, що приймає об'єкт продукту і логіює загальну вартість товару в консоль*
-
-// const productList = [
-//   {
-//     name: "banana",
-//     amount: 5,
-//     price: 10,
+// const obj = {
+//   objInside: {
+//     showCxtInside: () => console.log(this),
 //   },
-//   {
-//     name: "apple",
-//     amount: 10,
-//     price: 8,
-//   },
-//   {
-//     name: "cherry",
-//     amount: 15,
-//     price: 13,
-//   },
-// ]; 
-
-// function createProduct(obj, callback) {
-  // // 1. приймає обʼєкт і приймає колбек
-  // // 2. створення нового обʼєкту і додавання властивості айді
-  // // 3. виклик колбек функції з передачою
-  //        туди новостворенного 
-    
-    // console.log(callback);
-
-// let callback = function logTotalPrice(product) {
-// console.log(product.amount * product.price);
-//  }
-
-
-//   const newObj = { ...obj, id: Date.now() };
-//   callback(newObj);
-// }
-
-// function logProduct(product){  
-//     console.log(product);
-// }
-
-// logProduct(productList[0]);
-
-
-// function logTotalPrice(product) {
-//     console.log(product.amount * product.price);
-// }
-
-// createProduct(productList[2], logProduct);
-// createProduct(productList[2], logTotalPrice);
-// createProduct(productList[1], logTotalPrice);
-
-// /////////////////////////////////////////////////////////
-//* Example 2 - Коллбек функції
-
-//? Додайте об'єкт account методи withdraw(amount, onSuccess, onError) та deposit(amount, onSuccess, onError), де перший параметр це сума операції, а другий та третій - коллбеки.
-
-//? Метод withdraw викликає onError якщо amount більше TRANSACTION_LIMIT або this.balance, і onSuccess в іншому випадку.
-
-//? Метод deposit викликає onError якщо amount більше TRANSACTION_LIMIT або менше або дорівнює нулю, і onSuccess в іншому випадку.
-
-// const TRANSACTION_LIMIT = 1000;
-
-// const account = {
-//     username: "Alex",
-//     balance: 2000,
-//     withdraw(amount, onSuccess, onError) {
-//         if (amount > this.balance) {
-//             onError(
-//               `На жаль, на вашому балансі недостатньо коштів! Поточний баланс: ${this.balance}`
-//             );
-//         } else if (amount >= TRANSACTION_LIMIT) {
-//             onError(
-//               `На жаль, ви перевищили ліміт! Поточний ліміт: ${TRANSACTION_LIMIT}`
-//             );
-//         } else {
-//             this.balance -= amount;
-//             onSuccess(`Гроші знято! Поточний баланс: ${this.balance}`);
-//         }
-//     },
-//     deposit(amount, onSuccess, onError) {
-//         if (amount <= 0) {
-//           onError("Сума транзакції повинна бути більша нуля!");
-//         } else if (amount >= TRANSACTION_LIMIT) {
-//           onError(
-//             `На жаль, ви перевищили ліміт! Поточний ліміт: ${TRANSACTION_LIMIT}`
-//           );
-//         } else {
-//           this.balance += amount;
-//           onSuccess(
-//             `Гроші покладено на рахунок! Поточний баланс: ${this.balance}`
-//           );
-//         }
-//     },
-// }
-
-
-
-
-// function onSuccess(message) {
-//    console.log(`Успішна операція! ${message}`); 
-// }
-    
-// function onError(message) {
-//   console.log(`Помилка! ${message}`);
-// }
-
-// account.withdraw(5000, onSuccess, onError);
-// account.withdraw(1500, onSuccess, onError);
-// account.withdraw(950, onSuccess, onError);
-// account.deposit(10000, onSuccess, onError);
-// account.deposit(-5, onSuccess, onError);
-// account.deposit(300, onSuccess, onError);
-
-
-// /////////////////////////////////////////////////////////////////////////////////////////
-
-//* Example 3 - Коллбек функції
-// Напишіть функцію each(array, callback), яка першим параметром очікує масив, а другим - функцію, яка застосовується до кожного елемента масиву. Функція each повинна повернути новий масив, елементами якого будуть результати виклику коллбека.
-
-// function each(array, callback) {
-//   //1. Створимо новий масив
-//   //2. перебрати массив array за допомогою циклу
-//   //3. виклик колбек функції на кожному елементі масиву array
-//   //4. додоємо видозмінений елемент в новий масив
-//   //5. повернути новий масив
-    
-//     const modifiedArr = [];
-
-//     for (const el of array) {
-//         const modifiedEl = callback(el);  
-//         modifiedArr.push(modifiedEl);
-//     }
-//     return modifiedArr;
-// }
-
-
-// const arr = [1, 2, 3, 4, 5];
-
-// console.log(each(arr, pow));
-// console.log(each(arr, addOne));
-// console.log(each(arr, (num) => num / 2));
-
-// function pow(num) {
-//     return num ** 2;
-// }
-
-// function addOne(num) {
-//   return num + 1;
-// }
-
-// //////////////////////////////////////////////
-
-//* Example 4 - Стрілочні функції
-// Виконайте рефакторинг коду за допомогою стрілочних функцій.
-
-// const productList = [
-//   {
-//     name: "Banana",
-//     amount: 5,
-//     price: 10,
-//   },
-//   {
-//     name: "Apple",
-//     amount: 10,
-//     price: 8,
-//   },
-//   {
-//     name: "Cherry",
-//     amount: 15,
-//     price: 13,
-//   },
-// ];
-
-// //   function createProduct(obj, callback) {
-// //   const newObj = { ...obj, id: Date.now() };
-// //   callback(newObj);
-// // }
-
-// const createProduct = (obj, callback) => {
-//     const newObj = { ...obj, id: Date.now() };
-//     callback(newObj);
+//   showCxtOutside: () => console.log(this),
 // };
 
-// // const createProduct = (obj, callback) => callback({...obj, id:
-// // Date.now()});
+// console.log(obj.showCxtOutside());
+// console.log(obj.objInside.showCxtInside());
 
-// const logProduct = (product) => console.log(product);
-// const logTotalPrice = (product) => console.log(product.amount * product.price);
+//!========================================
+// const tweets = [
+//   { id: "000", likes: 5, tags: ["js", "nodejs"] },
+//   { id: "001", likes: 2, tags: ["html", "css"] },
+//   { id: "002", likes: 17, tags: ["html", "js", "nodejs"] },
+//   { id: "003", likes: 8, tags: ["css", "react"] },
+//   { id: "004", likes: 0, tags: ["js", "nodejs", "react"] },
+// ];
 
-// createProduct(productList[2], logProduct);
-// createProduct(productList[2], logTotalPrice);
-// createProduct(productList[1], logTotalPrice);
+// const getTags = (tweets) =>
+//   tweets.reduce((allTags, tweet) => {
+//     allTags.push(...tweet.tags);
 
-// ////////////////////////////////////////////////////////////////////////////////////
+//     return allTags;
+//   }, []);
 
-// function showArgs() {
-//     console.log(arguments);
-// }
+// const tags = getTags(tweets);
+// console.log("🚀 ~ tags", tags);
 
-// showArgs(1, 5, 8, 13, 2);
 
-// ///////////////////////////////////////////////////////////////////////////////////
+// // Винесемо callback-функцію окремо, а в reducе передамо посилання на неї.
+// // Це стандартна практика, якщо callback-функція досить велика.
 
-//* Example 9 - Метод forEach
-// Виконайте рефакторинг коду за допомогою методу forEach та стрілочні функції.
+// // Якщо в об'єкті-акумуляторі acc відсутня своя властивість з ключем tag,
+// // то створюємо її і записуємо їй значення 0.
+// // В іншому випадку збільшуємо значення на 1.
+// const getTagStats = (acc, tag) => {
+//   if (!acc.hasOwnProperty(tag)) {
+//     acc[tag] = 0;
+//   }
 
-function calсulateAverage(...args) {
-  let total = 0;
-    // for (let i = 0; i < args.length; i++) {
-    //   total += args[i];
-    // }
+//   acc[tag] += 1;
 
-    args.forEach(el => (total += el));
+//   return acc;
+// };
+
+// const tagCount = countTags(tags);
+// console.log(tagCount);
+
+// const uniqueTags = tags.reduce((acc, tag) => {
+//   if (!acc.includes(tag)) acc.push(tag);
+//   return acc;
+// }, []);
+// console.log("🚀 ~ uniqueTags", uniqueTags);
+
+/*
+//     1. (acc = {}, tag="js") => {
+//         if (!acc.hasOwnProperty(tag)) { true
+//             acc[tag] = 0; -> acc["js"] = 0 -> {js: 0}
+//         }
+
+//         acc[tag] += 1;
+//         => acc["js"] += 1 => {js: 1}
+
+//         return acc; => {js: 1}
+//     }
+
+//     2. (acc = {js: 1}, tag="nodejs") => {
+//         if (!acc.hasOwnProperty(tag)) { true
+//             acc[tag] = 0; -> acc["nodejs"] = 0 -> {nodejs: 0, js: 1}
+//         }
+
+//         acc[tag] += 1;
+//         => acc["nodejs"] += 1 => {nodejs: 1, js: 1}
+
+//         return acc; => {nodejs: 1, js: 1}
+//     }
+
+//     6. (acc = {nodejs: 1, js: 1, html: 2, css: 1}, tag="js") => {
+//         if (!acc.hasOwnProperty(tag)) { false
+//           -------
+//         }
+
+//         acc[tag] += 1;
+//         => acc["js"] += 1 => {nodejs: 1, js: 2, html: 2, css: 1}
+
+//         return acc; => {nodejs: 1, js: 2, html: 2, css: 1}
+//     }
+// };
+
+// */
+
+// Початкове значення акумулятора - це порожній об'єкт {}
+// const countTags = (tags) => tags.reduce(getTagStats, {});
+
+// /*
+
+// const countTags = (tags) => tags.reduce((acc, tag) => {
+//   if (!acc.hasOwnProperty(tag)) {
+//     acc[tag] = 0;
+//   }
+
+//   acc[tag] += 1;
+
+//   return acc;
+// }, {});
+
+// */
+
+// const tagCount = countTags(tags);
+// console.log(tagCount);
+
+// /////////////////////////////////////////////////////////
+
+//  Example 1 - Майстерня коштовностей
+// Напишіть метод calcTotalPrice(stoneName), який приймає
+//  назву каменю і розраховує та повертає загальну
+//  вартість каменів з таким ім'ям, ціною та кількістю
+//  з властивості stones.
+
+//  const chopShop = {
+//   stones: [
+//     { name: "Emerald", price: 1300, quantity: 4 },
+//     { name: "Diamond", price: 2700, quantity: 3 },
+//     { name: "Sapphire", price: 1400, quantity: 7 },
+//     { name: "Ruby", price: 800, quantity: 2 },
+//     ],
  
-  return total / args.length;
-}
+//      calcTotalPrice(stoneName) {
+//         const currentStone = this.stones.find(({name}) =>
+//         stoneName === name);
+         
+//         // const { price, quantity } = currentStone;
+         
+//         // return price * quantity;
+         
+//          return currentStone.price * currentStone.quantity;
+//      },
+     
+// };
+ 
 
-console.log(calсulateAverage(1, 2, 3, 4)); // 2.5
-console.log(calсulateAverage(14, 8, 2)); // 8
-console.log(calсulateAverage(27, 43, 2, 8, 36)); // 23.2
+// //  chopShop === this
+// console.log(chopShop.calcTotalPrice("Emerald")); // 5200
+// console.log(chopShop.calcTotalPrice("Diamond")); // 8100
+// console.log(chopShop.calcTotalPrice("Sapphire")); // 9800
+// console.log(chopShop.calcTotalPrice("Ruby")); // 1600
+
+// function calcTotalPrice(stoneName) {
+// //   console.log(this);
+// //   const currentStone = this.stones.find(({ name }) => stoneName === name);
+
+// //   // const { price, quantity } = currentStone;
+
+// //   // return price * quantity;
+
+// //   return currentStone.price * currentStone.quantity;
+// // }
+
+// console.log(calcTotalPrice.call(chopShop, "Emerald"));
+
+// ////////////////////////////////////////////////////
+
+//* Example 2 - Телефонна книга
+// Виконайте рефакторинг методів об'єкту phonebook щоб код запрацював.
+
+// const phonebook = {
+//     contacts: [],
+//     add(contact) {
+//       const newContact = {
+//         list: "default",
+//         ...contact,
+//         showCtx() {
+//           console.log(this);
+//         },
+
+//         id: this.generateId(),
+//         createdAt: this.getDate(),
+
+//         //   id: phonebook.generateId(),
+//         //   createdAt: phonebook.getDate(),
+//       };
+
+//         console.dir(newContact);
+        
+//       console.log(newContact.showCtx.call(phonebook)); // phonebook -> this
+//       console.log(newContact.showCtx()); // newContact -> this
+//       this.contacts.push(newContact);
+//       return this.contacts;
+//     },
+//     generateId() {
+//         return '_' + Math.random().toString(36).substr(2, 9);
+//     },
+//     getDate() {
+//         return Date.now();
+//     },
+// };
+// console.log(phonebook.add({
+//     name: "Mango",
+//     email: "mango@mail.com",
+//     list: "friends",
+// }),
+// );
+// console.log(
+//   phonebook.add({
+//     name: "Poly",
+//     email: "poly@mail.com",
+//     list: "friends",
+//   })
+// );
+
+/*
+    1. this визначається не на момент створення функції, а при її виклику
+    2. this - це обʼєкт, який викликає функцію/метод
+*/
+
+// /////////////////////////////////////////////////////
+
+//* Example 3 - Калькулятор
+// Створіть об'єкт calculator з трьома методами:
+
+// read(a, b)- приймає два значення та зберігає їх як властивості об'єкта.
+// add() - повертає суму збережених значень.
+// mult() - перемножує збережені значення та повертає результат.
+
+// const calculator = {
+//     a: 0,
+//     b: 0,
+//     read(a, b) {
+//         this.a = a;
+//         this.b = b;
+//      },
+//     add() {
+//         return this.a + this.b
+//     },
+//     mult() {
+//          return this.a * this.b;
+//     },
+
+// };
+
+// calculator.read(5, 10)
+// console.log(calculator);
+// console.log(calculator.add());
+// console.log(calculator.mult());
+
+// /////////////////////////////////////////////////
+// "use strict";
+// function globalFunc() {
+//   console.log(this);
+// }
+// const globalArrowFunc = () => {
+//   console.log(this);
+// };
+
+// console.log(this); // ?
+// globalFunc(); // ?
+// globalArrowFunc(); // ?
+
+// /////////////////////////////////////////////////
 
 
+// "use strict";
 
+// const user = {
+//   name: "Bob",
+//   userThis: {
+//     thisUser: this,
+//   },
+//   func() {
+//     console.log(this);
+//     const arrowFunc = () => {
+//       console.log(this);
+//     };
+//     console.log(arrowFunc());
+//   },
+//   arrowFunc: () => {
+//     console.log(this);
+//   },
+// };
 
+// console.log(user.userThis.thisUser);
+// console.log(user.userThis); // ?
+// user.func(); // ?
+// user.arrowFunc(); // ?
 
+// ////////////////////////////////////////////////
 
+// const hotel = {
+//   username: "Resort hotel",
+//   showThis() {
+//     const foo = () => {
+//       // Стрілки запам'ятовують контекст під час оголошення
+//       // з батьківської області видимості
+//       console.log("this in foo: ", this);
+//     };
 
+//     foo();
+//     console.log("this in showThis: ", this);
+//   },
+// };
+
+// hotel.showThis();
+// this in foo: {username: 'Resort hotel', showThis: ƒ}
+// this in showThis: {username: 'Resort hotel',showThis: ƒ}
+
+// /////////////////////////////////////////////////
 
 
