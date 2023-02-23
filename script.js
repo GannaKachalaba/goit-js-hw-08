@@ -1,237 +1,280 @@
-// *//* Example 1 - Коллбек функції
-// Напишіть наступні функції:
+// Example 1 - Блогер
+// Напиши клас Blogger для створення об'єкта блогера з наступними властивостями:
 
-//? createProduct(obj, callback) - приймає об'єкт товару без id, а також коллбек. Функція створює об'єкт товару, додаючи йому унікальний ідентифікатор у властивість id та викликає коллбек передаючи йому створений об'єкт.
+//? email - пошта, рядок
+//? age - вік, число
+//? numberOfPosts - кількість постів, число
+//? topics - масив тем на яких спеціалізується блогер
 
-//? logProduct(product) - колббек приймаючий об'єкт продукту і логуючий його в консоль
+// Клас чекає один параметр - об'єкт налаштувань з однойменними властивостями.
 
-//? logTotalPrice(product) - колббек, що приймає об'єкт продукту і логіює загальну вартість товару в консоль*
+//? Додай метод getInfo(), який, повертає рядок: User ${пошта} is ${вік} years old and has ${кількість постів} posts.
 
-// const productList = [
-//   {
-//     name: "banana",
-//     amount: 5,
-//     price: 10,
-//   },
-//   {
-//     name: "apple",
-//     amount: 10,
-//     price: 8,
-//   },
-//   {
-//     name: "cherry",
-//     amount: 15,
-//     price: 13,
-//   },
-// ]; 
+//? Додай метод updatePostCount(value), який у параметрі value приймає кількість постів, які потрібно додати користувачеві.
 
-// function createProduct(obj, callback) {
-  // // 1. приймає обʼєкт і приймає колбек
-  // // 2. створення нового обʼєкту і додавання властивості айді
-  // // 3. виклик колбек функції з передачою
-  //        туди новостворенного 
-    
-    // console.log(callback);
-
-// let callback = function logTotalPrice(product) {
-// console.log(product.amount * product.price);
-//  }
+// class User {
+//   constructor({ name, age, numberOfPosts, topics }) {
+//     this.name = name;
+//     this.age = !Number(age) ? 0 : Number(age);
+//     this.numberOfPosts = numberOfPosts;
+//     this.topics = topics;
+//   }
 
 
-//   const newObj = { ...obj, id: Date.now() };
-//   callback(newObj);
+//   getInfo() {
+//     return `User ${this.name} is ${this.age} years old and has ${this.numberOfPosts} posts.`;
+//   }
+
+//   updatePostCount(value) {
+//     this.numberOfPosts += value;
+//     return this.numberOfPosts;
+//   }
+
+
 // }
+// const user = new User({
+//   name: "mango@mail.com",
+//   age: 30,
+//   numberOfPosts: 200,
+//   topics: ["tech", "cooking"],
+// });
 
-// function logProduct(product){  
-//     console.log(product);
+// console.dir(user);
+
+// console.log(user.getInfo());
+// user.updatePostCount(10)
+// user.updatePostCount(10);
+// console.log(user.getInfo());
+
+// const user1 = new User({
+//   name: "124545@mail.com",
+//   age: 345,
+//   numberOfPosts: 44,
+//   topics: ["tech", "cooking"],
+// });
+
+
+// const mango = new User({
+//   name: "mango@mail.com",
+//   age: 24,
+//   numberOfPosts: 20,
+//   topics: ["tech", "cooking"],
+// });
+   
+//    console.log(mango.getInfo()); // User mango@mail.com is 24 years old and has 20 posts
+// // mango.updatePostCount(5);
+// console.log(mango.getInfo()); // User mango@mail.com is 24 years old and has 25 posts
+
+
+// const poly = new User({
+//   name: "poly@mail.com",
+//   age: 19,
+//   numberOfPosts: 17,
+//   topics: ["sports", "gaming", "health"],
+// });
+// console.log(poly.getInfo()); // User poly@mail.com is 19 years old and has 17 posts
+// poly.updatePostCount(4);
+// console.log(poly.getInfo()); // User poly@mail.com is 19 years old and has 21 posts
+// ////////////////////////////////////////////////////
+
+// Example 3 - User
+// Напиши клас User який створює об'єкт із властивостями
+//  login та email.Оголоси приватні властивості
+// #login та #email, доступ до яких зроби через
+// гетер та сетер login та email.
+
+// class User {
+//   #login;
+//   #email;
+
+//   constructor({ login, email }) {
+//     this.#login = login;
+//     this.#email = email;
+//   }
+
+//   get login() {
+//     return this.#login;
+//   }
+
+//   set login(value) {
+//     this.#login = value;
+//   }
+
+//   get email() {
+//     return this.#email;
+//   }
+
+//   set email(value) {
+//     this.#email = value;
+//   }
 // }
-
-// logProduct(productList[0]);
-
-
-// function logTotalPrice(product) {
-//     console.log(product.amount * product.price);
-// }
-
-// createProduct(productList[2], logProduct);
-// createProduct(productList[2], logTotalPrice);
-// createProduct(productList[1], logTotalPrice);
-
-// /////////////////////////////////////////////////////////
-//* Example 2 - Коллбек функції
-
-//? Додайте об'єкт account методи withdraw(amount, onSuccess, onError) та deposit(amount, onSuccess, onError), де перший параметр це сума операції, а другий та третій - коллбеки.
-
-//? Метод withdraw викликає onError якщо amount більше TRANSACTION_LIMIT або this.balance, і onSuccess в іншому випадку.
-
-//? Метод deposit викликає onError якщо amount більше TRANSACTION_LIMIT або менше або дорівнює нулю, і onSuccess в іншому випадку.
-
-// const TRANSACTION_LIMIT = 1000;
-
-// const account = {
-//     username: "Alex",
-//     balance: 2000,
-//     withdraw(amount, onSuccess, onError) {
-//         if (amount > this.balance) {
-//             onError(
-//               `На жаль, на вашому балансі недостатньо коштів! Поточний баланс: ${this.balance}`
-//             );
-//         } else if (amount >= TRANSACTION_LIMIT) {
-//             onError(
-//               `На жаль, ви перевищили ліміт! Поточний ліміт: ${TRANSACTION_LIMIT}`
-//             );
-//         } else {
-//             this.balance -= amount;
-//             onSuccess(`Гроші знято! Поточний баланс: ${this.balance}`);
-//         }
-//     },
-//     deposit(amount, onSuccess, onError) {
-//         if (amount <= 0) {
-//           onError("Сума транзакції повинна бути більша нуля!");
-//         } else if (amount >= TRANSACTION_LIMIT) {
-//           onError(
-//             `На жаль, ви перевищили ліміт! Поточний ліміт: ${TRANSACTION_LIMIT}`
-//           );
-//         } else {
-//           this.balance += amount;
-//           onSuccess(
-//             `Гроші покладено на рахунок! Поточний баланс: ${this.balance}`
-//           );
-//         }
-//     },
-// }
-
-
-
-
-// function onSuccess(message) {
-//    console.log(`Успішна операція! ${message}`); 
-// }
-    
-// function onError(message) {
-//   console.log(`Помилка! ${message}`);
-// }
-
-// account.withdraw(5000, onSuccess, onError);
-// account.withdraw(1500, onSuccess, onError);
-// account.withdraw(950, onSuccess, onError);
-// account.deposit(10000, onSuccess, onError);
-// account.deposit(-5, onSuccess, onError);
-// account.deposit(300, onSuccess, onError);
-
-
-// /////////////////////////////////////////////////////////////////////////////////////////
-
-//* Example 3 - Коллбек функції
-// Напишіть функцію each(array, callback), яка першим параметром очікує масив, а другим - функцію, яка застосовується до кожного елемента масиву. Функція each повинна повернути новий масив, елементами якого будуть результати виклику коллбека.
-
-// function each(array, callback) {
-//   //1. Створимо новий масив
-//   //2. перебрати массив array за допомогою циклу
-//   //3. виклик колбек функції на кожному елементі масиву array
-//   //4. додоємо видозмінений елемент в новий масив
-//   //5. повернути новий масив
-    
-//     const modifiedArr = [];
-
-//     for (const el of array) {
-//         const modifiedEl = callback(el);  
-//         modifiedArr.push(modifiedEl);
-//     }
-//     return modifiedArr;
-// }
-
-
-// const arr = [1, 2, 3, 4, 5];
-
-// console.log(each(arr, pow));
-// console.log(each(arr, addOne));
-// console.log(each(arr, (num) => num / 2));
-
-// function pow(num) {
-//     return num ** 2;
-// }
-
-// function addOne(num) {
-//   return num + 1;
-// }
-
-// //////////////////////////////////////////////
-
-//* Example 4 - Стрілочні функції
-// Виконайте рефакторинг коду за допомогою стрілочних функцій.
-
-// const productList = [
-//   {
-//     name: "Banana",
-//     amount: 5,
-//     price: 10,
-//   },
-//   {
-//     name: "Apple",
-//     amount: 10,
-//     price: 8,
-//   },
-//   {
-//     name: "Cherry",
-//     amount: 15,
-//     price: 13,
-//   },
-// ];
-
-// //   function createProduct(obj, callback) {
-// //   const newObj = { ...obj, id: Date.now() };
-// //   callback(newObj);
-// // }
-
-// const createProduct = (obj, callback) => {
-//     const newObj = { ...obj, id: Date.now() };
-//     callback(newObj);
-// };
-
-// // const createProduct = (obj, callback) => callback({...obj, id:
-// // Date.now()});
-
-// const logProduct = (product) => console.log(product);
-// const logTotalPrice = (product) => console.log(product.amount * product.price);
-
-// createProduct(productList[2], logProduct);
-// createProduct(productList[2], logTotalPrice);
-// createProduct(productList[1], logTotalPrice);
-
-// ////////////////////////////////////////////////////////////////////////////////////
-
-// function showArgs() {
-//     console.log(arguments);
-// }
-
-// showArgs(1, 5, 8, 13, 2);
-
-// ///////////////////////////////////////////////////////////////////////////////////
-
-//* Example 9 - Метод forEach
-// Виконайте рефакторинг коду за допомогою методу forEach та стрілочні функції.
-
-function calсulateAverage(...args) {
-  let total = 0;
-    // for (let i = 0; i < args.length; i++) {
-    //   total += args[i];
-    // }
-
-    args.forEach(el => (total += el));
  
-  return total / args.length;
-}
 
-console.log(calсulateAverage(1, 2, 3, 4)); // 2.5
-console.log(calсulateAverage(14, 8, 2)); // 8
-console.log(calсulateAverage(27, 43, 2, 8, 36)); // 23.2
+// const mango = new User({
+//   login: "Mango",
+//   email: "mango@dog.woof",
+// });
+
+// console.log(mango);
+// console.log(mango.login);
+
+// mango.login = 'qwerty';
+// console.log(mango.login);
+
+// console.log(mango);
+
+// console.log(mango.login); // Mango
+// mango.login = "Mangodoge";
+// console.log(mango.login); // Mangodoge
+
+// const poly = new User({
+//   login: "Poly",
+//   email: "poly@mail.com",
+// });
+
+// console.log(poly.login); // Poly
+// poly.login = "Polycutie";
+// console.log(poly.login); // Polycutie
+// /////////////////////////////////////////////////
+// Example 4 - Нотатки
+// Напиши клас Notes який керує колекцією нотаток у
+// властивості items.Замітка це об'єкт із властивостями
+//  text та priority.Додай класу статичну властивість
+// Priority, у якому зберігатиметься об'єкт із
+// пріоритетами.
+
+// {
+//   LOW: 'low',
+//   NORMAL: 'normal',
+//   HIGH: 'high'
+// }
+
+// Додай методи addNote(note), removeNote(text)
+// та updatePriority(text, newPriority).
+// class Notes {
+//   static Priority = {
+//     LOW: "low",
+//     NORMAL: "normal",
+//     HIGH: "high",
+//     };
+    
+//     static findNoteByIndex(text, items) {
+//         return items.findIndex((note) => note.text === text);
+// }
+
+//   constructor(arr) {
+//     this.items = arr;
+//   }
+//     addNote(note) {
+//         this.items.push(note);
+//     }
+    
+//     removeNote(text) {
+//         const index = Notes.findNoteByIndex(text, this.items);
+//         this.items.splice(index, 1);
+//     }
+//     updatePriority(text, newPriority) {
+//         const index = Notes.findNoteByIndex(text, this.items);
+//         this.items[index].priority = newPriority;
+//     }
+// }
+
+// console.dir(Notes);
 
 
+// const myNotes = new Notes([]);
 
+// myNotes.addNote({ text: "Моя перша замітка", priority: Notes.Priority.LOW });
+// console.log(myNotes.items);
 
+// myNotes.addNote({
+//   text: "Моя друга замітка",
+//   priority: Notes.Priority.NORMAL,
+// });
+// console.log(myNotes.items);
 
+// console.log(myNotes);
 
+// myNotes.removeNote("Моя перша замітка");
+// console.log(myNotes.items);
+
+// myNotes.updatePriority("Моя друга замітка", Notes.Priority.HIGH);
+// console.log(myNotes.items);
+// ////////////////////////////////////////////////
+
+// class User {
+//     constructor(name, email) {
+//         this.name = name;
+//         this.email = email;
+//     }
+// }
+// const user = new User("Alex", "Simak");
+// console.log(user);
+
+// ////////////////////////////////////////////////
+
+// class Rectangle {
+//   constructor(height, width) {
+//     this.name = "Rectangle";
+//     this.height = height;
+//     this.width = width;
+//   }
+//   sayName() {
+//     console.log("Hi, I am a ", this.name + ".");
+//   }
+//   get area() {
+//     return this.height * this.width;
+//   }
+//   set area(value) {
+//     this._area = value;
+//   }
+// }
+
+// class Square extends Rectangle {
+//   constructor(length) {
+//     super(length, length);
+//     this.name = "Square";
+//   }
+// }
+
+// const square = new Square(10);
+
+// console.log(square);
+// square.sayName();
+// console.log(square.area);
+
+//!========================================
+
+// class Vehicle {
+//   constructor({ model, color }) {
+//     this.model = model;
+//     this.color = color;
+//   }
+//   showInfo() {
+//     return `Vehicle: ${this.model} | color: ${this.color}`;
+//   }
+// }
+
+// class Car extends Vehicle {
+//   constructor({ model, color, wheels, amountOfSits, amountOfDoors }) {
+//     super({ model, color });
+//     this.wheels = wheels;
+//     this.amountOfSits = amountOfSits;
+//     this.amountOfDoors = amountOfDoors;
+//   }
+// }
+
+// const car = new Car({
+//   model: "Tesla model X",
+//   color: "black",
+//   wheels: 4,
+//   amountOfSits: 8,
+//   amountOfDoors: 4,
+// });
+// console.log(car);
+// console.log(car.showInfo());
+
+// //////////////////////////////////////////////////
 
 
 
