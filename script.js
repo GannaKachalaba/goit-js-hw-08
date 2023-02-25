@@ -1,237 +1,73 @@
-// *//* Example 1 - Коллбек функції
-// Напишіть наступні функції:
+// document.body.addEventListener("click", (e) => {
+//   console.log(e.target, "- target");
+//   console.log(e.currentTarget, "currentTarget");
+// });
 
-//? createProduct(obj, callback) - приймає об'єкт товару без id, а також коллбек. Функція створює об'єкт товару, додаючи йому унікальний ідентифікатор у властивість id та викликає коллбек передаючи йому створений об'єкт.
+//! =======================
 
-//? logProduct(product) - колббек приймаючий об'єкт продукту і логуючий його в консоль
+// Створити калькулятор вартості продукту в залежності від ціни. При роботі з подіями використовувати делегування. Відрендерити всю розмітку через JS
 
-//? logTotalPrice(product) - колббек, що приймає об'єкт продукту і логіює загальну вартість товару в консоль*
+// При змінні данних в інпуті №1 чи №2 автоматично має перераховуватися загальна вартість
 
-// const productList = [
-//   {
-//     name: "banana",
-//     amount: 5,
-//     price: 10,
-//   },
-//   {
-//     name: "apple",
-//     amount: 10,
-//     price: 8,
-//   },
-//   {
-//     name: "cherry",
-//     amount: 15,
-//     price: 13,
-//   },
-// ]; 
+// Завжди має відображатися валюта - гривня
 
-// function createProduct(obj, callback) {
-  // // 1. приймає обʼєкт і приймає колбек
-  // // 2. створення нового обʼєкту і додавання властивості айді
-  // // 3. виклик колбек функції з передачою
-  //        туди новостворенного 
-    
-    // console.log(callback);
+// Загальна сума відображається з копійками (2 знаки після коми)
 
-// let callback = function logTotalPrice(product) {
-// console.log(product.amount * product.price);
-//  }
+// В підписі другого інпута має бути кольорова підказка скільки кілограм вибрав користувач на другому інпуті.
 
+// Кольорова підказка має змінювати своє значення при перетягувані повзунка.
 
-//   const newObj = { ...obj, id: Date.now() };
-//   callback(newObj);
-// }
+// В інпуті №2 мін і мах поріг встановлюєте самостійно.
 
-// function logProduct(product){  
-//     console.log(product);
-// }
+// При завантаженні сторінки сприпт має автоматично розрахувати вартість на основі даних за замовчуванням які ви встановите в розмітці.
 
-// logProduct(productList[0]);
+const form = document.getElementById("form");
+const price = document.getElementById("price");
+const quantity = document.getElementById("quantity");
+const amount = document.getElementById("amount");
+const total = document.getElementById("total");
 
+const data = {
+    price: 0,
+    quantity: 0,
+    calcTotalPrice() {
+        return (this.price * this.quantity).toFixed(2);
+    },
+};
 
-// function logTotalPrice(product) {
-//     console.log(product.amount * product.price);
-// }
+// data fill
+dataFill();
+displayTotalPrice();
 
-// createProduct(productList[2], logProduct);
-// createProduct(productList[2], logTotalPrice);
-// createProduct(productList[1], logTotalPrice);
+// events listener
 
-// /////////////////////////////////////////////////////////
-//* Example 2 - Коллбек функції
+form.addEventListener("change", handleForChange);
 
-//? Додайте об'єкт account методи withdraw(amount, onSuccess, onError) та deposit(amount, onSuccess, onError), де перший параметр це сума операції, а другий та третій - коллбеки.
+// functions
 
-//? Метод withdraw викликає onError якщо amount більше TRANSACTION_LIMIT або this.balance, і onSuccess в іншому випадку.
+function handleForChange({ target }) {
 
-//? Метод deposit викликає onError якщо amount більше TRANSACTION_LIMIT або менше або дорівнює нулю, і onSuccess в іншому випадку.
+    const { value } = target;
 
-// const TRANSACTION_LIMIT = 1000;
-
-// const account = {
-//     username: "Alex",
-//     balance: 2000,
-//     withdraw(amount, onSuccess, onError) {
-//         if (amount > this.balance) {
-//             onError(
-//               `На жаль, на вашому балансі недостатньо коштів! Поточний баланс: ${this.balance}`
-//             );
-//         } else if (amount >= TRANSACTION_LIMIT) {
-//             onError(
-//               `На жаль, ви перевищили ліміт! Поточний ліміт: ${TRANSACTION_LIMIT}`
-//             );
-//         } else {
-//             this.balance -= amount;
-//             onSuccess(`Гроші знято! Поточний баланс: ${this.balance}`);
-//         }
-//     },
-//     deposit(amount, onSuccess, onError) {
-//         if (amount <= 0) {
-//           onError("Сума транзакції повинна бути більша нуля!");
-//         } else if (amount >= TRANSACTION_LIMIT) {
-//           onError(
-//             `На жаль, ви перевищили ліміт! Поточний ліміт: ${TRANSACTION_LIMIT}`
-//           );
-//         } else {
-//           this.balance += amount;
-//           onSuccess(
-//             `Гроші покладено на рахунок! Поточний баланс: ${this.balance}`
-//           );
-//         }
-//     },
-// }
-
-
-
-
-// function onSuccess(message) {
-//    console.log(`Успішна операція! ${message}`); 
-// }
-    
-// function onError(message) {
-//   console.log(`Помилка! ${message}`);
-// }
-
-// account.withdraw(5000, onSuccess, onError);
-// account.withdraw(1500, onSuccess, onError);
-// account.withdraw(950, onSuccess, onError);
-// account.deposit(10000, onSuccess, onError);
-// account.deposit(-5, onSuccess, onError);
-// account.deposit(300, onSuccess, onError);
-
-
-// /////////////////////////////////////////////////////////////////////////////////////////
-
-//* Example 3 - Коллбек функції
-// Напишіть функцію each(array, callback), яка першим параметром очікує масив, а другим - функцію, яка застосовується до кожного елемента масиву. Функція each повинна повернути новий масив, елементами якого будуть результати виклику коллбека.
-
-// function each(array, callback) {
-//   //1. Створимо новий масив
-//   //2. перебрати массив array за допомогою циклу
-//   //3. виклик колбек функції на кожному елементі масиву array
-//   //4. додоємо видозмінений елемент в новий масив
-//   //5. повернути новий масив
-    
-//     const modifiedArr = [];
-
-//     for (const el of array) {
-//         const modifiedEl = callback(el);  
-//         modifiedArr.push(modifiedEl);
-//     }
-//     return modifiedArr;
-// }
-
-
-// const arr = [1, 2, 3, 4, 5];
-
-// console.log(each(arr, pow));
-// console.log(each(arr, addOne));
-// console.log(each(arr, (num) => num / 2));
-
-// function pow(num) {
-//     return num ** 2;
-// }
-
-// function addOne(num) {
-//   return num + 1;
-// }
-
-// //////////////////////////////////////////////
-
-//* Example 4 - Стрілочні функції
-// Виконайте рефакторинг коду за допомогою стрілочних функцій.
-
-// const productList = [
-//   {
-//     name: "Banana",
-//     amount: 5,
-//     price: 10,
-//   },
-//   {
-//     name: "Apple",
-//     amount: 10,
-//     price: 8,
-//   },
-//   {
-//     name: "Cherry",
-//     amount: 15,
-//     price: 13,
-//   },
-// ];
-
-// //   function createProduct(obj, callback) {
-// //   const newObj = { ...obj, id: Date.now() };
-// //   callback(newObj);
-// // }
-
-// const createProduct = (obj, callback) => {
-//     const newObj = { ...obj, id: Date.now() };
-//     callback(newObj);
-// };
-
-// // const createProduct = (obj, callback) => callback({...obj, id:
-// // Date.now()});
-
-// const logProduct = (product) => console.log(product);
-// const logTotalPrice = (product) => console.log(product.amount * product.price);
-
-// createProduct(productList[2], logProduct);
-// createProduct(productList[2], logTotalPrice);
-// createProduct(productList[1], logTotalPrice);
-
-// ////////////////////////////////////////////////////////////////////////////////////
-
-// function showArgs() {
-//     console.log(arguments);
-// }
-
-// showArgs(1, 5, 8, 13, 2);
-
-// ///////////////////////////////////////////////////////////////////////////////////
-
-//* Example 9 - Метод forEach
-// Виконайте рефакторинг коду за допомогою методу forEach та стрілочні функції.
-
-function calсulateAverage(...args) {
-  let total = 0;
-    // for (let i = 0; i < args.length; i++) {
-    //   total += args[i];
+    if (target === quantity) {
+        // data.quantity = value;
+        amount.textContent = value;
+    }
+    // else if (target === price) {
+    //     data.price = value;
     // }
 
-    args.forEach(el => (total += el));
- 
-  return total / args.length;
+    target.setAttribute("value", value);
+    dataFill();
+    displayTotalPrice();
+    console.log(data);
 }
 
-console.log(calсulateAverage(1, 2, 3, 4)); // 2.5
-console.log(calсulateAverage(14, 8, 2)); // 8
-console.log(calсulateAverage(27, 43, 2, 8, 36)); // 23.2
+function dataFill(){
+    data.price = price.getAttribute("value");
+    data.quantity = quantity.getAttribute("value");
+}
 
-
-
-
-
-
-
-
-
+function displayTotalPrice() {
+    total.textContent = data.calcTotalPrice() + " грн";
+}
